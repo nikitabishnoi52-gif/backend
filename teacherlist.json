@@ -1,0 +1,182 @@
+[
+  {
+    "teaid": 1,
+    "name": "Dr. Anil Sharma",
+    "teasubject": "Mathematics",
+    "teacity": "Delhi",
+    "teaemail": "anil.sharma@example.com",
+    "teaphone": "9876543210",
+    "teaqualification": "M.Sc. Mathematics"
+  },
+  {
+    "teaid": 2,
+    "name": "Dr. Priya Verma",
+    "teasubject": "Physics",
+    "teacity": "Jaipur",
+    "teaemail": "priya.verma@example.com",
+    "teaphone": "9876543211",
+    "teaqualification": "M.Sc. Physics"
+  },
+  {
+    "teaid": 3,
+    "name": "Rahul Mehta",
+    "teasubject": "Chemistry",
+    "teacity": "Gurgaon",
+    "teaemail": "rahul.mehta@example.com",
+    "teaphone": "9876543212",
+    "teaqualification": "M.Sc. Chemistry"
+  },
+  {
+    "teaid": 4,
+    "name": "Neha Gupta",
+    "teasubject": "English",
+    "teacity": "Chandigarh",
+    "teaemail": "neha.gupta@example.com",
+    "teaphone": "9876543213",
+    "teaqualification": "M.A. English"
+  },
+  {
+    "teaid": 5,
+    "name": "Amit Singh",
+    "teasubject": "Computer Science",
+    "teacity": "Noida",
+    "teaemail": "amit.singh@example.com",
+    "teaphone": "9876543214",
+    "teaqualification": "M.Tech Computer Science"
+  },
+  {
+    "teaid": 6,
+    "name": "Pooja Yadav",
+    "teasubject": "Biology",
+    "teacity": "Lucknow",
+    "teaemail": "pooja.yadav@example.com",
+    "teaphone": "9876543215",
+    "teaqualification": "M.Sc. Biology"
+  },
+  {
+    "teaid": 7,
+    "name": "Vikas Kumar",
+    "teasubject": "History",
+    "teacity": "Patna",
+    "teaemail": "vikas.kumar@example.com",
+    "teaphone": "9876543216",
+    "teaqualification": "M.A. History"
+  },
+  {
+    "teaid": 8,
+    "name": "Sneha Kapoor",
+    "teasubject": "Geography",
+    "teacity": "Amritsar",
+    "teaemail": "sneha.kapoor@example.com",
+    "teaphone": "9876543217",
+    "teaqualification": "M.A. Geography"
+  },
+  {
+    "teaid": 9,
+    "name": "Rohit Malhotra",
+    "teasubject": "Economics",
+    "teacity": "Mumbai",
+    "teaemail": "rohit.malhotra@example.com",
+    "teaphone": "9876543218",
+    "teaqualification": "M.A. Economics"
+  },
+  {
+    "teaid": 10,
+    "name": "Kavita Joshi",
+    "teasubject": "Hindi",
+    "teacity": "Dehradun",
+    "teaemail": "kavita.joshi@example.com",
+    "teaphone": "9876543219",
+    "teaqualification": "M.A. Hindi"
+  },
+  {
+    "teaid": 11,
+    "name": "Suresh Choudhary",
+    "teasubject": "Political Science",
+    "teacity": "Jodhpur",
+    "teaemail": "suresh.choudhary@example.com",
+    "teaphone": "9876543220",
+    "teaqualification": "M.A. Political Science"
+  },
+  {
+    "teaid": 12,
+    "name": "Meena Rani",
+    "teasubject": "Sociology",
+    "teacity": "Ambala",
+    "teaemail": "meena.rani@example.com",
+    "teaphone": "9876543221",
+    "teaqualification": "M.A. Sociology"
+  },
+  {
+    "teaid": 13,
+    "name": "Arjun Bansal",
+    "teasubject": "Computer Applications",
+    "teacity": "Faridabad",
+    "teaemail": "arjun.bansal@example.com",
+    "teaphone": "9876543222",
+    "teaqualification": "MCA"
+  },
+  {
+    "teaid": 14,
+    "name": "Ritu Sharma",
+    "teasubject": "Psychology",
+    "teacity": "Kolkata",
+    "teaemail": "ritu.sharma@example.com",
+    "teaphone": "9876543223",
+    "teaqualification": "M.A. Psychology"
+  },
+  {
+    "teaid": 15,
+    "name": "Manoj Agarwal",
+    "teasubject": "Commerce",
+    "teacity": "Ahmedabad",
+    "teaemail": "manoj.agarwal@example.com",
+    "teaphone": "9876543224",
+    "teaqualification": "M.Com"
+  },
+  {
+    "teaid": 16,
+    "name": "Anjali Thakur",
+    "teasubject": "Environmental Science",
+    "teacity": "Shimla",
+    "teaemail": "anjali.thakur@example.com",
+    "teaphone": "9876543225",
+    "teaqualification": "M.Sc. Environmental Science"
+  },
+  {
+    "teaid": 17,
+    "name": "Deepak Saini",
+    "teasubject": "Statistics",
+    "teacity": "Rohtak",
+    "teaemail": "deepak.saini@example.com",
+    "teaphone": "9876543226",
+    "teaqualification": "M.Sc. Statistics"
+  },
+  {
+    "teaid": 18,
+    "name": "Nisha Arora",
+    "teasubject": "Business Studies",
+    "teacity": "Bengaluru",
+    "teaemail": "nisha.arora@example.com",
+    "teaphone": "9876543227",
+    "teaqualification": "MBA"
+  },
+  {
+    "teaid": 19,
+    "name": "Rajesh Verma",
+    "teasubject": "Accountancy",
+    "teacity": "Kanpur",
+    "teaemail": "rajesh.verma@example.com",
+    "teaphone": "9876543228",
+    "teaqualification": "M.Com"
+  },
+  {
+    "teaid": 20,
+    "name": "Simran Kaur",
+    "teasubject": "Computer Science",
+    "teacity": "Ludhiana",
+    "teaemail": "simran.kaur@example.com",
+    "teaphone": "9876543229",
+    "teaqualification": "M.Tech Computer Science"
+  }
+]

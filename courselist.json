@@ -1,0 +1,162 @@
+[
+  {
+    "corseid": 1,
+    "name": "Rahul Sharma",
+    "coursename": "B.Tech Computer Science",
+    "duration": "4 Years",
+    "fees": 120000,
+    "mode": "Offline"
+  },
+  {
+    "corseid": 2,
+    "name": "Priya Verma",
+    "coursename": "B.Sc. Mathematics",
+    "duration": "3 Years",
+    "fees": 75000,
+    "mode": "Offline"
+  },
+  {
+    "corseid": 3,
+    "name": "Amit Singh",
+    "coursename": "B.Sc. Physics",
+    "duration": "3 Years",
+    "fees": 80000,
+    "mode": "Offline"
+  },
+  {
+    "corseid": 4,
+    "name": "Neha Gupta",
+    "coursename": "B.A. English",
+    "duration": "3 Years",
+    "fees": 60000,
+    "mode": "Online"
+  },
+  {
+    "corseid": 5,
+    "name": "Vikas Kumar",
+    "coursename": "MCA",
+    "duration": "2 Years",
+    "fees": 95000,
+    "mode": "Online"
+  },
+  {
+    "corseid": 6,
+    "name": "Pooja Yadav",
+    "coursename": "B.Sc. Biology",
+    "duration": "3 Years",
+    "fees": 70000,
+    "mode": "Offline"
+  },
+  {
+    "corseid": 7,
+    "name": "Rohit Mehta",
+    "coursename": "B.Com",
+    "duration": "3 Years",
+    "fees": 65000,
+    "mode": "Offline"
+  },
+  {
+    "corseid": 8,
+    "name": "Sneha Kapoor",
+    "coursename": "M.Com",
+    "duration": "2 Years",
+    "fees": 55000,
+    "mode": "Online"
+  },
+  {
+    "corseid": 9,
+    "name": "Arjun Bansal",
+    "coursename": "MBA",
+    "duration": "2 Years",
+    "fees": 150000,
+    "mode": "Offline"
+  },
+  {
+    "corseid": 10,
+    "name": "Kavita Joshi",
+    "coursename": "M.A. Hindi",
+    "duration": "2 Years",
+    "fees": 50000,
+    "mode": "Online"
+  },
+  {
+    "corseid": 11,
+    "name": "Suresh Choudhary",
+    "coursename": "B.A. History",
+    "duration": "3 Years",
+    "fees": 58000,
+    "mode": "Offline"
+  },
+  {
+    "corseid": 12,
+    "name": "Meena Rani",
+    "coursename": "M.A. Sociology",
+    "duration": "2 Years",
+    "fees": 52000,
+    "mode": "Online"
+  },
+  {
+    "corseid": 13,
+    "name": "Deepak Saini",
+    "coursename": "B.Sc. Statistics",
+    "duration": "3 Years",
+    "fees": 72000,
+    "mode": "Offline"
+  },
+  {
+    "corseid": 14,
+    "name": "Anjali Thakur",
+    "coursename": "M.Sc. Environmental Science",
+    "duration": "2 Years",
+    "fees": 68000,
+    "mode": "Offline"
+  },
+  {
+    "corseid": 15,
+    "name": "Manoj Agarwal",
+    "coursename": "BBA",
+    "duration": "3 Years",
+    "fees": 85000,
+    "mode": "Online"
+  },
+  {
+    "corseid": 16,
+    "name": "Ritu Sharma",
+    "coursename": "M.A. Psychology",
+    "duration": "2 Years",
+    "fees": 62000,
+    "mode": "Offline"
+  },
+  {
+    "corseid": 17,
+    "name": "Rajesh Verma",
+    "coursename": "BCA",
+    "duration": "3 Years",
+    "fees": 90000,
+    "mode": "Offline"
+  },
+  {
+    "corseid": 18,
+    "name": "Simran Kaur",
+    "coursename": "M.Tech Computer Science",
+    "duration": "2 Years",
+    "fees": 110000,
+    "mode": "Online"
+  },
+  {
+    "corseid": 19,
+    "name": "Nisha Arora",
+    "coursename": "B.A. Economics",
+    "duration": "3 Years",
+    "fees": 62000,
+    "mode": "Offline"
+  },
+  {
+    "corseid": 20,
+    "name": "Karan Malhotra",
+    "coursename": "B.Tech Mechanical Engineering",
+    "duration": "4 Years",
+    "fees": 115000,
+    "mode": "Offline"
+  }
+]

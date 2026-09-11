@@ -1,0 +1,240 @@
+[{
+  "_id": {
+    "$oid": "6aa0fd3b239759a0b9f91819"
+  },
+  "id": 1,
+  "name": "Kashish Kapoor",
+  "course": "B.Tech",
+  "email": "kashish@gmail.com",
+  "marks": 92,
+  "city": "Gurgaon",
+  "age": 20
+},
+{
+  "_id": {
+    "$oid": "6aa0fd3b239759a0b9f9181a"
+  },
+  "id": 2,
+  "name": "Rahul Sharma",
+  "course": "BCA",
+  "email": "rahul@gmail.com",
+  "marks": 85,
+  "city": "Delhi",
+  "age": 21
+},
+{
+  "_id": {
+    "$oid": "6aa0fd3b239759a0b9f9181b"
+  },
+  "id": 3,
+  "name": "Priya Verma",
+  "course": "B.Sc",
+  "email": "priya@gmail.com",
+  "marks": 89,
+  "city": "Jaipur",
+  "age": 19
+},
+{
+  "_id": {
+    "$oid": "6aa0fd3b239759a0b9f9181c"
+  },
+  "id": 4,
+  "name": "Aman Singh",
+  "course": "B.Com",
+  "email": "aman@gmail.com",
+  "marks": 78,
+  "city": "Chandigarh",
+  "age": 20
+},
+{
+  "_id": {
+    "$oid": "6aa0fd3b239759a0b9f9181d"
+  },
+  "id": 5,
+  "name": "Neha Gupta",
+  "course": "B.A",
+  "email": "neha@gmail.com",
+  "marks": 91,
+  "city": "Noida",
+  "age": 22
+},
+{
+  "_id": {
+    "$oid": "6aa0fd3b239759a0b9f9181e"
+  },
+  "id": 6,
+  "name": "Rohit Kumar",
+  "course": "B.Tech",
+  "email": "rohit@gmail.com",
+  "marks": 87,
+  "city": "Faridabad",
+  "age": 21
+},
+{
+  "_id": {
+    "$oid": "6aa0fd3b239759a0b9f9181f"
+  },
+  "id": 7,
+  "name": "Sneha Sharma",
+  "course": "BCA",
+  "email": "sneha@gmail.com",
+  "marks": 94,
+  "city": "Amritsar",
+  "age": 20
+},
+{
+  "_id": {
+    "$oid": "6aa0fd3b239759a0b9f91820"
+  },
+  "id": 8,
+  "name": "Vikas Mehta",
+  "course": "MBA",
+  "email": "vikas@gmail.com",
+  "marks": 82,
+  "city": "Mumbai",
+  "age": 23
+},
+{
+  "_id": {
+    "$oid": "6aa0fd3b239759a0b9f91821"
+  },
+  "id": 9,
+  "name": "Anjali Yadav",
+  "course": "B.Sc",
+  "email": "anjali@gmail.com",
+  "marks": 90,
+  "city": "Lucknow",
+  "age": 19
+},
+{
+  "_id": {
+    "$oid": "6aa0fd3b239759a0b9f91822"
+  },
+  "id": 10,
+  "name": "Arjun Bansal",
+  "course": "B.Tech",
+  "email": "arjun@gmail.com",
+  "marks": 88,
+  "city": "Delhi",
+  "age": 21
+},
+{
+  "_id": {
+    "$oid": "6aa0fd3b239759a0b9f91823"
+  },
+  "id": 11,
+  "name": "Pooja Rani",
+  "course": "B.Com",
+  "email": "pooja@gmail.com",
+  "marks": 76,
+  "city": "Ambala",
+  "age": 20
+},
+{
+  "_id": {
+    "$oid": "6aa0fd3b239759a0b9f91824"
+  },
+  "id": 12,
+  "name": "Karan Malhotra",
+  "course": "BCA",
+  "email": "karan@gmail.com",
+  "marks": 93,
+  "city": "Gurgaon",
+  "age": 22
+},
+{
+  "_id": {
+    "$oid": "6aa0fd3b239759a0b9f91825"
+  },
+  "id": 13,
+  "name": "Simran Kaur",
+  "course": "B.A",
+  "email": "simran@gmail.com",
+  "marks": 86,
+  "city": "Ludhiana",
+  "age": 20
+},
+{
+  "_id": {
+    "$oid": "6aa0fd3b239759a0b9f91826"
+  },
+  "id": 14,
+  "name": "Deepak Saini",
+  "course": "B.Tech",
+  "email": "deepak@gmail.com",
+  "marks": 81,
+  "city": "Rohtak",
+  "age": 21
+},
+{
+  "_id": {
+    "$oid": "6aa0fd3b239759a0b9f91827"
+  },
+  "id": 15,
+  "name": "Riya Agarwal",
+  "course": "B.Sc",
+  "email": "riya@gmail.com",
+  "marks": 95,
+  "city": "Jaipur",
+  "age": 19
+},
+{
+  "_id": {
+    "$oid": "6aa0fd3b239759a0b9f91828"
+  },
+  "id": 16,
+  "name": "Mohit Verma",
+  "course": "B.Com",
+  "email": "mohit@gmail.com",
+  "marks": 79,
+  "city": "Kanpur",
+  "age": 22
+},
+{
+  "_id": {
+    "$oid": "6aa0fd3b239759a0b9f91829"
+  },
+  "id": 17,
+  "name": "Nisha Arora",
+  "course": "MBA",
+  "email": "nisha@gmail.com",
+  "marks": 89,
+  "city": "Chandigarh",
+  "age": 24
+},
+{
+  "_id": {
+    "$oid": "6aa0fd3b239759a0b9f9182a"
+  },
+  "id": 18,
+  "name": "Sahil Choudhary",
+  "course": "BCA",
+  "email": "sahil@gmail.com",
+  "marks": 84,
+  "city": "Patna",
+  "age": 21
+},
+{
+  "_id": {
+    "$oid": "6aa0fd3b239759a0b9f9182b"
+  },
+  "id": 19,
+  "name": "Meena Joshi",
+  "course": "B.A",
+  "email": "meena@gmail.com",
+  "marks": 92,
+  "city": "Dehradun",
+  "age": 20
+},
+{
+  "_id": {
+    "$oid": "6aa0fd3b239759a0b9f9182c"
+  },
+  "id": 20,
+  "name": "Varun Thakur",
+  "course": "B.Tech",
+  "email": "varun@gmail.com",
+  "marks": 97,
+  "city": "Shimla",
+  "age": 22
+}]
