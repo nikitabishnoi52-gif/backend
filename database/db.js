@@ -1,6 +1,6 @@
 const { MongoClient } = require("mongodb");
 
-const url = "mongodb://127.0.0.1:27017";
+const url = "mongodb+srv://nikitabishnoi52_db_user:Password123@cluster0.2moamdw.mongodb.net/?appName=Cluster0";
 
 const client = new MongoClient(url);
 
