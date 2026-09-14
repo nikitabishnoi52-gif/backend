@@ -4,7 +4,7 @@ const url = "mongodb://127.0.0.1:27017";
 
 const client = new MongoClient(url);
 
-const dbName = "local";
+const dbName = "sample_mflix";
 
 async function connectDB() {
     try {
