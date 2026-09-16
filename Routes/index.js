@@ -6,7 +6,56 @@ const router = express.Router();
 const st = require("../Controller/student.js");
 const tt = require("../Controller/teacher.js");
 const ct = require("../Controller/course.js");
+const ut = require("../Controller/user.js");
 
+router.get("/home", (req, res) => {
+  res.render("home",
+    {
+        name: "Nikita"
+    });
+});
+
+router.get("/studentlist", (req, res) => {
+const listnew = [
+    {
+        id: 1,
+        name: "Nikita",
+        age: 22,
+        course: "MERN",
+        email: "nikita@example.com",
+        city: "New York",
+        marks: 85
+    },
+    {
+        id: 2,
+        name: "John",
+        age: 24,
+        course: "MEAN",
+        email: "john@example.com",
+        city: "Los Angeles",
+        marks: 90
+    },
+    {
+        id: 3,
+        name: "Alice",
+        age: 21,
+        course: "MERN",
+        email: "alice@example.com",
+        city: "Chicago",
+        marks: 88
+    },
+    {
+        id: 4,
+        name: "Bob",
+        age: 23,
+        course: "MEAN",
+        email: "bob@example.com",
+        city: "Houston",
+        marks: 92
+    }
+];
+res.render("student", {listnew });
+});
 // =====================================================
 // STUDENT APIs
 // =====================================================
@@ -56,6 +105,22 @@ router.put("/updatecoursedata/:id", ct.putcoursedata);
 
 // DELETE - Delete course data
 router.delete("/deletecoursedata", ct.deletecoursedata);
+
+// =====================================================
+// USER APIs
+// =====================================================
+
+// GET - Get all user data
+router.get("/userdata", ut.getuserdata);
+
+// POST - Add user data
+router.post("/postuserdata", ut.postuserdata);
+
+// PUT - Update user data
+router.put("/updateuserdata/:id", ut.updateuserdata);
+
+// DELETE - Delete user data
+router.delete("/deletedata/:id", ut.deleteuserdata);
 
 
 // =====================================================

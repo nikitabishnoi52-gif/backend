@@ -1,6 +1,6 @@
 
 const connectDB = require("../database/db.js");
-
+const { sendEmail } = require("./email.js");
 // ==========================================
 // GET - Get all student data
 // ==========================================
@@ -12,7 +12,7 @@ const getstudentdata = async (req, res) => {
     const student = db.collection("student");
 
     const result = await student.find({}).toArray();
-
+    
     res.send({
       status: 200,
       data: result
@@ -45,7 +45,12 @@ const poststudentdata = async (req, res) => {
     const result = await student.insertOne(req.body);
 
     if (result.acknowledged === true) {
-
+      // Send email notification
+      const emailSent = await sendEmail(
+        req.body.email,
+        "Student Data Added",
+        `Hello ${req.body.name}, your student data has been added successfully.`
+      );
       res.send({
         status: 200,
         message: "Student data added successfully",
