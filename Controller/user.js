@@ -8,7 +8,6 @@ const em = require("./email.js");
 
 const getuserdata = async (req, res) => {
   try {
-
     const db = await connectDB();
 
     const user = db.collection("user");
@@ -16,48 +15,38 @@ const getuserdata = async (req, res) => {
     const result = await user.find({}).toArray();
 
     if (result.length > 0) {
-
       res.send({
         status: 200,
         message: "User data found successfully",
         data: result
       });
-
     } else {
-
       res.send({
         status: 404,
         message: "No user data found",
         data: []
       });
-
     }
-
   } catch (error) {
-
     res.send({
       status: 500,
       message: "Error getting user data",
       error: error.message
     });
-
   }
 };
 
-
 // ==========================================
-// POST - Add user data
+// POST - Register user
 // ==========================================
 
 const postuserdata = async (req, res) => {
   try {
-
     const db = await connectDB();
 
     const user = db.collection("user");
 
-    const { userid, username, email } = req.body;
-
+    const { userid, username, email, password } = req.body;
 
     // ==========================================
     // CHECK ALL FIELDS
@@ -69,113 +58,122 @@ const postuserdata = async (req, res) => {
       username === undefined ||
       username === null ||
       email === undefined ||
-      email === null
+      email === null ||
+      password === undefined ||
+      password === null
     ) {
-
-      res.send({
+      return res.send({
         status: 400,
-        message: "userid, username and email are required"
+        message: "userid, username, email and password are required"
       });
+    }
 
-    } else {
+    // ==========================================
+    // CHECK USERNAME
+    // ==========================================
 
-      // ==========================================
-      // CHECK USERNAME
-      // ==========================================
+    if (username.trim() === "") {
+      return res.send({
+        status: 400,
+        message: "Username cannot be empty"
+      });
+    }
 
-      if (username.trim() === "") {
+    // ==========================================
+    // CHECK EMAIL
+    // ==========================================
 
-        res.send({
-          status: 400,
-          message: "Username cannot be empty"
-        });
+    if (email.trim() === "") {
+      return res.send({
+        status: 400,
+        message: "Email cannot be empty"
+      });
+    }
 
-      }
+    // ==========================================
+    // CHECK PASSWORD
+    // ==========================================
 
-      // ==========================================
-      // CHECK EMAIL
-      // ==========================================
+    if (password.trim() === "") {
+      return res.send({
+        status: 400,
+        message: "Password cannot be empty"
+      });
+    }
 
-      else if (email.trim() === "") {
+    if (password.length < 6) {
+      return res.send({
+        status: 400,
+        message: "Password must be at least 6 characters"
+      });
+    }
 
-        res.send({
-          status: 400,
-          message: "Email cannot be empty"
-        });
+    // ==========================================
+    // CHECK USERID
+    // ==========================================
 
-      }
+    if (isNaN(userid)) {
+      return res.send({
+        status: 400,
+        message: "Userid must be a number"
+      });
+    }
 
-      // ==========================================
-      // CHECK USERID
-      // ==========================================
+    // ==========================================
+    // CHECK IF USERID ALREADY EXISTS
+    // ==========================================
 
-      else if (isNaN(userid)) {
+    const existingUserid = await user.findOne({
+      userid: parseInt(userid)
+    });
 
-        res.send({
-          status: 400,
-          message: "Userid must be a number"
-        });
+    if (existingUserid) {
+      return res.send({
+        status: 409,
+        message: "Userid already exists"
+      });
+    }
 
-      }
+    // ==========================================
+    // CHECK IF EMAIL ALREADY EXISTS
+    // ==========================================
 
-      else {
+    const existingEmail = await user.findOne({
+      email: email.toLowerCase().trim()
+    });
 
-        // ==========================================
-        // CHECK IF USERID ALREADY EXISTS
-        // ==========================================
+    if (existingEmail) {
+      return res.send({
+        status: 409,
+        message: "Email already exists"
+      });
+    }
 
-        const existingUserid = await user.findOne({
-          userid: parseInt(userid)
-        });
+    // ==========================================
+    // CREATE USER DATA
+    // ==========================================
 
-        if (existingUserid) {
+    const data = {
+      userid: parseInt(userid),
+      username: username.trim(),
+      email: email.toLowerCase().trim(),
+      password: password
+    };
 
-          res.send({
-            status: 409,
-            message: "Userid already exists"
-          });
+    // ==========================================
+    // SAVE USER DATA IN MONGODB
+    // ==========================================
 
-        }
+    const result = await user.insertOne(data);
 
-        else {
+    // ==========================================
+    // SEND REGISTRATION EMAIL
+    // ==========================================
 
-          // ==========================================
-          // CHECK IF EMAIL ALREADY EXISTS
-          // ==========================================
-
-          const existingEmail = await user.findOne({
-            email: email.toLowerCase().trim()
-          });
-
-          if (existingEmail) {
-
-            res.send({
-              status: 409,
-              message: "Email already exists"
-            });
-
-          }
-
-          else {
-
-            const data = {
-              userid: parseInt(userid),
-              username: username.trim(),
-              email: email.toLowerCase().trim()
-            };
-
-
-            const result = await user.insertOne(data);
-
-
-            // ==========================================
-            // SEND EMAIL
-            // ==========================================
-
-            await em.sendEmail(
-              data.email,
-              "User Registration Successfully",
-              `Hello ${data.username},
+    const emailSent = await em.sendEmail(
+      data.email,
+      "User Registration Successfully",
+      `Hello ${data.username},
 
 Your user registration was successful.
 
@@ -184,34 +182,34 @@ Username: ${data.username}
 Email: ${data.email}
 
 Thank you for registering with Softech.`
-            );
+    );
 
+    // ==========================================
+    // RESPONSE
+    // ==========================================
 
-            res.send({
-              status: 200,
-              message: "User data inserted successfully",
-              data: result
-            });
-
-          }
-
-        }
-
-      }
-
+    if (emailSent) {
+      return res.send({
+        status: 200,
+        message: "User registered successfully and email sent",
+        data: result
+      });
+    } else {
+      return res.send({
+        status: 200,
+        message: "User registered successfully but email could not be sent",
+        data: result
+      });
     }
 
   } catch (error) {
-
     res.send({
       status: 500,
-      message: "Error inserting user data",
+      message: "Error registering user",
       error: error.message
     });
-
   }
 };
-
 
 // ==========================================
 // PUT - Update user data
@@ -219,134 +217,132 @@ Thank you for registering with Softech.`
 
 const updateuserdata = async (req, res) => {
   try {
-
     const db = await connectDB();
 
     const user = db.collection("user");
 
     const id = parseInt(req.params.id);
 
-    const { username, email } = req.body;
-
+    const { username, email, password } = req.body;
 
     // ==========================================
     // CHECK ID
     // ==========================================
 
     if (isNaN(id)) {
-
-      res.send({
+      return res.send({
         status: 400,
         message: "Invalid userid"
       });
-
     }
 
     // ==========================================
-    // CHECK USERNAME AND EMAIL
+    // CHECK UPDATE DATA
     // ==========================================
 
-    else if (
+    if (
       username === undefined &&
-      email === undefined
+      email === undefined &&
+      password === undefined
     ) {
-
-      res.send({
+      return res.send({
         status: 400,
-        message: "Please provide username or email to update"
+        message: "Please provide username, email or password to update"
       });
-
     }
 
-    else {
+    const updateData = {};
 
-      const updateData = {};
+    // ==========================================
+    // UPDATE USERNAME
+    // ==========================================
 
-
-      // ==========================================
-      // USERNAME
-      // ==========================================
-
-      if (username !== undefined) {
-
-        if (username.trim() === "") {
-
-          res.send({
-            status: 400,
-            message: "Username cannot be empty"
-          });
-
-          return;
-        }
-
-        updateData.username = username.trim();
-
-      }
-
-
-      // ==========================================
-      // EMAIL
-      // ==========================================
-
-      if (email !== undefined) {
-
-        if (email.trim() === "") {
-
-          res.send({
-            status: 400,
-            message: "Email cannot be empty"
-          });
-
-          return;
-        }
-
-        updateData.email = email.toLowerCase().trim();
-
-      }
-
-
-      const result = await user.updateOne(
-        {
-          userid: id
-        },
-        {
-          $set: updateData
-        }
-      );
-
-
-      if (result.matchedCount === 0) {
-
-        res.send({
-          status: 404,
-          message: "User not found"
+    if (username !== undefined) {
+      if (username.trim() === "") {
+        return res.send({
+          status: 400,
+          message: "Username cannot be empty"
         });
-
       }
 
-      else {
-
-        res.send({
-          status: 200,
-          message: "User data updated successfully",
-          data: result
-        });
-
-      }
-
+      updateData.username = username.trim();
     }
+
+    // ==========================================
+    // UPDATE EMAIL
+    // ==========================================
+
+    if (email !== undefined) {
+      if (email.trim() === "") {
+        return res.send({
+          status: 400,
+          message: "Email cannot be empty"
+        });
+      }
+
+      updateData.email = email.toLowerCase().trim();
+    }
+
+    // ==========================================
+    // UPDATE PASSWORD
+    // ==========================================
+
+    if (password !== undefined) {
+      if (password.trim() === "") {
+        return res.send({
+          status: 400,
+          message: "Password cannot be empty"
+        });
+      }
+
+      if (password.length < 6) {
+        return res.send({
+          status: 400,
+          message: "Password must be at least 6 characters"
+        });
+      }
+
+      updateData.password = password;
+    }
+
+    // ==========================================
+    // UPDATE USER
+    // ==========================================
+
+    const result = await user.updateOne(
+      {
+        userid: id
+      },
+      {
+        $set: updateData
+      }
+    );
+
+    // ==========================================
+    // CHECK USER
+    // ==========================================
+
+    if (result.matchedCount === 0) {
+      return res.send({
+        status: 404,
+        message: "User not found"
+      });
+    }
+
+    res.send({
+      status: 200,
+      message: "User data updated successfully",
+      data: result
+    });
 
   } catch (error) {
-
     res.send({
       status: 500,
       message: "Error updating user data",
       error: error.message
     });
-
   }
 };
-
 
 // ==========================================
 // DELETE - Delete user data
@@ -354,66 +350,52 @@ const updateuserdata = async (req, res) => {
 
 const deleteuserdata = async (req, res) => {
   try {
-
     const db = await connectDB();
 
     const user = db.collection("user");
 
     const id = parseInt(req.params.id);
 
-
     // ==========================================
     // CHECK ID
     // ==========================================
 
     if (isNaN(id)) {
-
-      res.send({
+      return res.send({
         status: 400,
         message: "Invalid userid"
       });
-
     }
 
-    else {
+    // ==========================================
+    // DELETE USER
+    // ==========================================
 
-      const result = await user.deleteOne({
-        userid: id
+    const result = await user.deleteOne({
+      userid: id
+    });
+
+    if (result.deletedCount === 0) {
+      return res.send({
+        status: 404,
+        message: "User not found"
       });
-
-
-      if (result.deletedCount === 0) {
-
-        res.send({
-          status: 404,
-          message: "User not found"
-        });
-
-      }
-
-      else {
-
-        res.send({
-          status: 200,
-          message: "User data deleted successfully",
-          data: result
-        });
-
-      }
-
     }
+
+    res.send({
+      status: 200,
+      message: "User data deleted successfully",
+      data: result
+    });
 
   } catch (error) {
-
     res.send({
       status: 500,
       message: "Error deleting user data",
       error: error.message
     });
-
   }
 };
-
 
 // ==========================================
 // EXPORT
@@ -425,3 +407,4 @@ module.exports = {
   updateuserdata,
   deleteuserdata
 };
+
