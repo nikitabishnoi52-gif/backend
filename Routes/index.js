@@ -114,7 +114,7 @@ router.delete("/deletecoursedata", ct.deletecoursedata);
 router.get("/userdata", ut.getuserdata);
 
 // POST - Add user data
-router.post("/postuserdata", ut.postuserdata);
+router.post("/user/register", ut.postuserdata);
 
 // PUT - Update user data
 router.put("/updateuserdata/:id", ut.updateuserdata);
