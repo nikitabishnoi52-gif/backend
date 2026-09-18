@@ -1,5 +1,5 @@
 const connectDB = require("../database/db.js");
-const em = require("./email.js");
+const { sendEmail } = require("./email.js");
 
 // ==========================================
 // GET - Get all user data
@@ -13,24 +13,15 @@ const getuserdata = async (req, res) => {
 
     const result = await user.find({}).toArray();
 
-    if (result.length > 0) {
-      res.send({
-        status: 200,
-        message: "User data found successfully",
-        data: result
-      });
-    } else {
-      res.send({
-        status: 404,
-        message: "No user data found",
-        data: []
-      });
-    }
+    res.send({
+      status: 200,
+      data: result
+    });
 
   } catch (error) {
     res.send({
       status: 500,
-      message: "Error getting user data",
+      message: "Error retrieving user data",
       error: error.message
     });
   }
@@ -38,155 +29,55 @@ const getuserdata = async (req, res) => {
 
 
 // ==========================================
-// POST - Register user
+// POST - Add user data
 // ==========================================
 
 const postuserdata = async (req, res) => {
   try {
+
+    console.log("POST Body:", req.body);
+
     const db = await connectDB();
 
     const user = db.collection("user");
 
-    const {
-      userid,
-      username,
-      email,
-      password
-    } = req.body;
-
-
-    // ==========================================
-    // CHECK ALL FIELDS
-    // ==========================================
-
-    if (
-      userid === undefined ||
-      userid === null ||
-      username === undefined ||
-      username === null ||
-      email === undefined ||
-      email === null ||
-      password === undefined ||
-      password === null
-    ) {
-      return res.send({
-        status: 400,
-        message: "userid, username, email and password are required"
-      });
-    }
-
-
-    // ==========================================
-    // CHECK USERNAME
-    // ==========================================
-
-    if (typeof username !== "string" || username.trim() === "") {
-      return res.send({
-        status: 400,
-        message: "Username cannot be empty"
-      });
-    }
-
-
-    // ==========================================
-    // CHECK EMAIL
-    // ==========================================
-
-    if (typeof email !== "string" || email.trim() === "") {
-      return res.send({
-        status: 400,
-        message: "Email cannot be empty"
-      });
-    }
-
-
-    // ==========================================
-    // CHECK PASSWORD
-    // ==========================================
-
-    if (
-      typeof password !== "string" ||
-      password.trim() === ""
-    ) {
-      return res.send({
-        status: 400,
-        message: "Password cannot be empty"
-      });
-    }
-
-
-    if (password.length < 6) {
-      return res.send({
-        status: 400,
-        message: "Password must be at least 6 characters"
-      });
-    }
-
-
-    // ==========================================
-    // CHECK USERID
-    // ==========================================
-
-    if (isNaN(userid)) {
-      return res.send({
-        status: 400,
-        message: "Userid must be a number"
-      });
-    }
-
-
-    // ==========================================
-    // CREATE USER DATA
-    // ==========================================
-
-    const data = {
-      userid: parseInt(userid),
-      username: username.trim(),
-      email: email.toLowerCase().trim(),
-      password: password
+    const userdata = {
+      userid: Number(req.body.userid),
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body.password
     };
 
+    const result = await user.insertOne(userdata);
 
-    // ==========================================
-    // SAVE USER DATA IN MONGODB
-    // ==========================================
+    if (result.acknowledged === true) {
 
-    const result = await user.insertOne(data);
+      // Send email notification
+      let emailSent = false;
 
+      try {
+        emailSent = await sendEmail(
+          req.body.email,
+          "User Registration Successfully",
+          `Hello ${req.body.username}, your account has been registered successfully.`
+        );
+      } catch (emailError) {
+        console.log("Email Error:", emailError.message);
+      }
 
-    // ==========================================
-    // SEND REGISTRATION EMAIL
-    // ==========================================
-
-    const emailSent = await em.sendEmail(
-      data.email,
-      "User Registration Successfully",
-      `Hello ${data.username},
-
-Your user registration was successful.
-
-User ID: ${data.userid}
-Username: ${data.username}
-Email: ${data.email}
-
-Thank you for registering with Softech.`
-    );
-
-
-    // ==========================================
-    // RESPONSE
-    // ==========================================
-
-    if (emailSent) {
-      return res.send({
+      res.send({
         status: 200,
-        message: "User registered successfully and email sent",
+        message: emailSent
+          ? "User registered successfully and email sent"
+          : "User registered successfully but email could not be sent",
         data: result
       });
+
     } else {
-      return res.send({
-        status: 200,
-        message: "User registered successfully but email could not be sent",
+
+      res.send({
+        status: 400,
+        message: "Failed to add user data",
         data: result
       });
     }
@@ -195,10 +86,9 @@ Thank you for registering with Softech.`
 
     res.send({
       status: 500,
-      message: "Error registering user",
+      message: "Error adding user data",
       error: error.message
     });
-
   }
 };
 
@@ -209,154 +99,165 @@ Thank you for registering with Softech.`
 
 const updateuserdata = async (req, res) => {
   try {
+
+    // ======================================
+    // Get OLD ID from URL
+    // ======================================
+
+    const oldId = Number(req.params.id);
+
+    console.log("Old User ID:", oldId);
+    console.log("Updated User Data:", req.body);
+
+    // ======================================
+    // Check ID
+    // ======================================
+
+    if (Number.isNaN(oldId)) {
+
+      return res.send({
+        status: 400,
+        message: "Invalid user ID"
+      });
+
+    }
+
+    // ======================================
+    // Connect database
+    // ======================================
+
     const db = await connectDB();
 
     const user = db.collection("user");
 
-    const id = parseInt(req.params.id);
+    // ======================================
+    // Check user exists
+    // ======================================
 
-    const {
-      username,
-      email,
-      password
-    } = req.body;
+    const existingUser = await user.findOne({
+      userid: oldId
+    });
 
+    if (!existingUser) {
 
-    // ==========================================
-    // CHECK USERID
-    // ==========================================
-
-    if (isNaN(id)) {
-      return res.send({
-        status: 400,
-        message: "Invalid userid"
-      });
-    }
-
-
-    // ==========================================
-    // CHECK UPDATE DATA
-    // ==========================================
-
-    if (
-      username === undefined &&
-      email === undefined &&
-      password === undefined
-    ) {
-      return res.send({
-        status: 400,
-        message: "Please provide username, email or password to update"
-      });
-    }
-
-
-    const updateData = {};
-
-
-    // ==========================================
-    // UPDATE USERNAME
-    // ==========================================
-
-    if (username !== undefined) {
-
-      if (
-        typeof username !== "string" ||
-        username.trim() === ""
-      ) {
-        return res.send({
-          status: 400,
-          message: "Username cannot be empty"
-        });
-      }
-
-      updateData.username = username.trim();
-    }
-
-
-    // ==========================================
-    // UPDATE EMAIL
-    // ==========================================
-
-    if (email !== undefined) {
-
-      if (
-        typeof email !== "string" ||
-        email.trim() === ""
-      ) {
-        return res.send({
-          status: 400,
-          message: "Email cannot be empty"
-        });
-      }
-
-      updateData.email = email.toLowerCase().trim();
-    }
-
-
-    // ==========================================
-    // UPDATE PASSWORD
-    // ==========================================
-
-    if (password !== undefined) {
-
-      if (
-        typeof password !== "string" ||
-        password.trim() === ""
-      ) {
-        return res.send({
-          status: 400,
-          message: "Password cannot be empty"
-        });
-      }
-
-      if (password.length < 6) {
-        return res.send({
-          status: 400,
-          message: "Password must be at least 6 characters"
-        });
-      }
-
-      updateData.password = password;
-    }
-
-
-    // ==========================================
-    // UPDATE USER IN MONGODB
-    // ==========================================
-
-    const result = await user.updateOne(
-      {
-        userid: id
-      },
-      {
-        $set: updateData
-      }
-    );
-
-
-    // ==========================================
-    // CHECK USER
-    // ==========================================
-
-    if (result.matchedCount === 0) {
       return res.send({
         status: 404,
-        message: "User not found"
+        message: "User not found",
+        data: {
+          userid: oldId
+        }
       });
+
     }
 
+    // ======================================
+    // New User ID
+    // ======================================
 
-    // ==========================================
-    // RESPONSE
-    // ==========================================
+    const newId = Number(req.body.userid);
 
-    res.send({
+    if (Number.isNaN(newId)) {
+
+      return res.send({
+        status: 400,
+        message: "Invalid new user ID"
+      });
+
+    }
+
+    // ======================================
+    // Check duplicate ID
+    // ======================================
+
+    if (oldId !== newId) {
+
+      const duplicateUser = await user.findOne({
+        userid: newId
+      });
+
+      if (duplicateUser) {
+
+        return res.send({
+          status: 409,
+          message: `User ID ${newId} already exists`
+        });
+
+      }
+    }
+
+    // ======================================
+    // Create updated data
+    // ======================================
+
+    const updatedData = {
+
+      userid: newId,
+
+      username: req.body.username,
+
+      email: req.body.email,
+
+      password: req.body.password
+
+    };
+
+    console.log(
+      "Final Update Data:",
+      updatedData
+    );
+
+    // ======================================
+    // Update user
+    // ======================================
+
+    const result = await user.updateOne(
+
+      {
+        userid: oldId
+      },
+
+      {
+        $set: updatedData
+      }
+
+    );
+
+    // ======================================
+    // Response
+    // ======================================
+
+    if (result.matchedCount === 0) {
+
+      return res.send({
+        status: 404,
+        message: "User not found",
+        data: result
+      });
+
+    }
+
+    if (result.modifiedCount > 0) {
+
+      return res.send({
+        status: 200,
+        message: "User data updated successfully",
+        data: result
+      });
+
+    }
+
+    return res.send({
       status: 200,
-      message: "User data updated successfully",
+      message: "No changes made to user data",
       data: result
     });
 
   } catch (error) {
+
+    console.error(
+      "PUT User Error:",
+      error
+    );
 
     res.send({
       status: 500,
@@ -373,56 +274,67 @@ const updateuserdata = async (req, res) => {
 // ==========================================
 
 const deleteuserdata = async (req, res) => {
+
   try {
+
+    // Get ID from URL
+    const userid = Number(req.params.id);
+
+    console.log(
+      "User ID to delete:",
+      userid
+    );
+
+    // ======================================
+    // Check ID
+    // ======================================
+
+    if (Number.isNaN(userid)) {
+
+      return res.send({
+        status: 400,
+        message: "Invalid user ID"
+      });
+
+    }
+
+    // ======================================
+    // Connect database
+    // ======================================
+
     const db = await connectDB();
 
     const user = db.collection("user");
 
-    const id = parseInt(req.params.id);
-
-
-    // ==========================================
-    // CHECK USERID
-    // ==========================================
-
-    if (isNaN(id)) {
-      return res.send({
-        status: 400,
-        message: "Invalid userid"
-      });
-    }
-
-
-    // ==========================================
-    // DELETE USER
-    // ==========================================
+    // ======================================
+    // Delete user
+    // ======================================
 
     const result = await user.deleteOne({
-      userid: id
+      userid: userid
     });
 
+    // ======================================
+    // Response
+    // ======================================
 
-    // ==========================================
-    // CHECK USER
-    // ==========================================
+    if (result.deletedCount > 0) {
 
-    if (result.deletedCount === 0) {
-      return res.send({
-        status: 404,
-        message: "User not found"
+      res.send({
+        status: 200,
+        message: "User data deleted successfully",
+        data: result
       });
+
+    } else {
+
+      res.send({
+        status: 404,
+        message: "User not found",
+        data: result
+      });
+
     }
-
-
-    // ==========================================
-    // RESPONSE
-    // ==========================================
-
-    res.send({
-      status: 200,
-      message: "User data deleted successfully",
-      data: result
-    });
 
   } catch (error) {
 
@@ -437,12 +349,17 @@ const deleteuserdata = async (req, res) => {
 
 
 // ==========================================
-// EXPORT
+// EXPORT ALL FUNCTIONS
 // ==========================================
 
 module.exports = {
+
   getuserdata,
+
   postuserdata,
+
   updateuserdata,
+
   deleteuserdata
+
 };
