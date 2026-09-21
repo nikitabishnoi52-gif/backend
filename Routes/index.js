@@ -122,6 +122,9 @@ router.put("/updateuserdata/:id", ut.updateuserdata);
 // DELETE - Delete user data
 router.delete("/deletedata/:id", ut.deleteuserdata);
 
+// POST - User Login
+router.post("/userlogin", ut.userlogin);
+
 
 // =====================================================
 // EXPORT ROUTER

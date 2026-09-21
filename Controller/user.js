@@ -50,7 +50,7 @@ const postuserdata = async (req, res) => {
 
     const result = await user.insertOne(userdata);
 
-    if (result.acknowledged === true) {
+    if (result.acknowledged == true) {
 
       // Send email notification
       let emailSent = false;
@@ -345,6 +345,51 @@ const deleteuserdata = async (req, res) => {
     });
 
   }
+}; 
+
+// ==========================================
+// POST - User Login
+// ==========================================
+
+const userlogin = async (req, res) => {
+  try {
+
+    const { username, password } = req.body;
+
+    const db = await connectDB();
+    const user = db.collection("user");
+
+    const result = await user.findOne({
+      username: username,
+      password: password
+    });
+
+    if (!result) {
+      return res.send({
+        status: 401,
+        message: "Invalid username or password"
+      });
+    }
+
+    res.send({
+      status: 200,
+      message: "Login successful",
+      data: {
+        userid: result.userid,
+        username: result.username,
+        email: result.email
+      }
+    });
+
+  } catch (error) {
+
+    res.send({
+      status: 500,
+      message: "Error during login",
+      error: error.message
+    });
+
+  }
 };
 
 
@@ -360,6 +405,8 @@ module.exports = {
 
   updateuserdata,
 
-  deleteuserdata
+  deleteuserdata,
+
+  userlogin
 
 };
