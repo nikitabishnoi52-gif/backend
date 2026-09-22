@@ -8,6 +8,7 @@ const tt = require("../Controller/teacher.js");
 const ct = require("../Controller/course.js");
 const ut = require("../Controller/user.js");
 
+
 router.get("/home", (req, res) => {
   res.render("home",
     {
@@ -124,6 +125,13 @@ router.delete("/deletedata/:id", ut.deleteuserdata);
 
 // POST - User Login
 router.post("/userlogin", ut.userlogin);
+
+// Login and send OTP
+router.post("/user/login", ut.loginUser);
+
+
+// Verify OTP
+router.post("/user/verify-otp", ut.verifyOTP);
 
 
 // =====================================================

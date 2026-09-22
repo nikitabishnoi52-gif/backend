@@ -392,6 +392,156 @@ const userlogin = async (req, res) => {
   }
 };
 
+// ==========================================
+// LOGIN - Check email/password and send OTP
+// ==========================================
+
+const loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).send({
+        status: 400,
+        message: "Email and password are required"
+      });
+    }
+
+    const db = await connectDB();
+    const user = db.collection("user");
+
+    const result = await user.findOne({
+      email: email,
+      password: password
+    });
+
+    if (!result) {
+      return res.status(401).send({
+        status: 401,
+        message: "Invalid email or password"
+      });
+    }
+
+    // Generate 6 digit OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    // OTP valid for 5 minutes
+    const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
+
+    // Save OTP in database
+    await user.updateOne(
+      { email: email },
+      {
+        $set: {
+          otp: otp,
+          otpExpiry: otpExpiry
+        }
+      }
+    );
+
+    // Send OTP email
+    await sendEmail(
+  email,
+  "Your Login OTP",
+  `Your OTP for login is ${otp}. This OTP is valid for 5 minutes.`
+);
+    res.send({
+      status: 200,
+      message: "OTP sent successfully to your email"
+    });
+
+  } catch (error) {
+    console.log("LOGIN ERROR:", error);
+
+    res.status(500).send({
+      status: 500,
+      message: "Server error"
+    });
+  }
+};
+
+
+// ==========================================
+// VERIFY OTP
+// ==========================================
+
+const verifyOTP = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    if (!email || !otp) {
+      return res.status(400).send({
+        status: 400,
+        message: "Email and OTP are required"
+      });
+    }
+
+    const db = await connectDB();
+    const user = db.collection("user");
+
+    const result = await user.findOne({
+      email: email
+    });
+
+    if (!result) {
+      return res.status(404).send({
+        status: 404,
+        message: "User not found"
+      });
+    }
+
+    // Check OTP
+    if (result.otp !== otp) {
+      return res.status(401).send({
+        status: 401,
+        message: "Invalid OTP"
+      });
+    }
+
+    // Check OTP expiry
+    if (!result.otpExpiry || new Date() > new Date(result.otpExpiry)) {
+      return res.status(401).send({
+        status: 401,
+        message: "OTP has expired"
+      });
+    }
+
+    // Remove OTP after successful verification
+    await user.updateOne(
+      { email: email },
+      {
+        $unset: {
+          otp: "",
+          otpExpiry: ""
+        }
+      }
+    );
+
+    res.send({
+      status: 200,
+      message: "Login successful",
+      data: {
+        email: result.email,
+        username: result.username,
+        userid: result.userid
+      }
+    });
+
+  } catch (error) {
+    console.log("OTP ERROR:", error);
+
+    res.status(500).send({
+      status: 500,
+      message: "Server error"
+    });
+  }
+};
+
+
+module.exports = {
+  
+};
+
 
 // ==========================================
 // EXPORT ALL FUNCTIONS
@@ -407,6 +557,10 @@ module.exports = {
 
   deleteuserdata,
 
-  userlogin
+  userlogin,
+
+  loginUser,
+
+  verifyOTP
 
 };
