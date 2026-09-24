@@ -6,7 +6,6 @@ app.set("view engine","ejs");
 const indexRouter=require('./Routes/index.js');
 const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./swagger");
-app.use("/uploads", express.static("uploads"));
 
 const port=3001;
 

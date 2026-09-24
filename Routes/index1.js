@@ -2,11 +2,13 @@
 const express = require("express");
 const router = express.Router();
 
+
 const st = require("../Controller/student.js");
 const tt = require("../Controller/teacher.js");
 const ct = require("../Controller/course.js");
 const ut = require("../Controller/user.js");
-const upload = require("../multer.js");
+const upload = require("../multer");
+
 // ==========================================================
 // HOME
 // ==========================================================
@@ -693,6 +695,7 @@ router.post("/upload", upload.single("photo"), (req, res) => {
         });
     }
 });
+
 // ==========================================================
 // EXPORT ROUTER
 // ==========================================================
