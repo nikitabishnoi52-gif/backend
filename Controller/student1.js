@@ -1,5 +1,5 @@
-
 const connectDB = require("../database/db.js");
+const { sendEmail } = require("./email.js");
 
 // ==========================================
 // GET - Get all student data
@@ -97,9 +97,23 @@ const poststudentdata = async (req, res) => {
 
     if (result.acknowledged === true) {
 
+      let emailSent = false;
+
+      try {
+        emailSent = await sendEmail(
+          req.body.email,
+          "Student Registration Successfully",
+          `Hello ${req.body.name}, your student record has been added successfully.`
+        );
+      } catch (emailError) {
+        console.log("Email Error:", emailError.message);
+      }
+
       res.send({
         status: 200,
-        message: "Student added successfully",
+        message: emailSent
+          ? "Student added successfully and email sent"
+          : "Student added successfully but email could not be sent",
         data: result
       });
 
@@ -498,4 +512,3 @@ module.exports = {
   putstudentdata,
   deletestudentdata
 };
-

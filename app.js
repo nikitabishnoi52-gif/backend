@@ -1,23 +1,20 @@
+const express = require('express');
+const cors = require('cors');
+const app = express();
 
-const express=require('express');
-const cors=require('cors');
-const app=express();
-app.set("view engine","ejs");
-const indexRouter=require('./Routes/index.js');
-const swaggerUi = require("swagger-ui-express");
-const swaggerSpec = require("./swagger");
-app.use("/uploads", express.static("uploads"));
+app.set("view engine", "ejs");
 
-const port=3001;
+const indexRouter = require('./Routes/index.js');
+
+const port = 3001;
 
 app.use(cors());
 app.use(express.json());
 
-// Swagger API Documentation
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/uploads", express.static("uploads"));
 
 app.use('/', indexRouter);
 
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+    console.log(`Server is running on http://localhost:${port}`);
 });
