@@ -519,82 +519,12 @@ router.delete("/deletedata/:id", ut.deleteuserdata);
 // USER LOGIN APIs
 // ==========================================================
 
-/**
- * @swagger
- * /userlogin:
- *   post:
- *     summary: Login user using username and password
- *     tags:
- *       - User Authentication
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               username:
- *                 type: string
- *               password:
- *                 type: string
- *     responses:
- *       200:
- *         description: Login successful
- *       401:
- *         description: Invalid username or password
- */
+
 router.post("/userlogin", ut.userlogin);
 
-/**
- * @swagger
- * /user/login:
- *   post:
- *     summary: Login user and send OTP to email
- *     tags:
- *       - User Authentication
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *               password:
- *                 type: string
- *     responses:
- *       200:
- *         description: OTP sent successfully
- *       401:
- *         description: Invalid email or password
- */
+
 router.post("/user/login", ut.loginUser);
 
-/**
- * @swagger
- * /user/verify-otp:
- *   post:
- *     summary: Verify email OTP
- *     tags:
- *       - User Authentication
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *               otp:
- *                 type: string
- *     responses:
- *       200:
- *         description: OTP verified successfully
- *       400:
- *         description: Invalid or expired OTP
- */
 router.post("/user/verify-otp", ut.verifyOTP);
 
 // ==========================================================
