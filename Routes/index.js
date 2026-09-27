@@ -522,7 +522,6 @@ router.delete("/deletedata/:id", ut.deleteuserdata);
 
 router.post("/userlogin", ut.userlogin);
 
-
 router.post("/user/login", ut.loginUser);
 
 router.post("/user/verify-otp", ut.verifyOTP);
